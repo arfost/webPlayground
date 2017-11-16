@@ -78,14 +78,22 @@
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("demo").innerHTML = "EXPIRED";
-                    notifyMe();
+                    showNotification("fini", "le countdown est fini", null, {});
                 }
             }, 1000);
         }
 
-        function notifyMe() {
-            var notification = new Notification("Hi there!");
-        }
+        function showNotification(title, body, icon, data) {
+            var notificationOptions = {
+              body: body,
+              icon: icon ? icon : 'images/touch/chrome-touch-icon-192x192.png',
+              tag: 'simple-push-demo-notification',
+              data: data
+            };
+          
+            self.registration.showNotification(title, notificationOptions);
+            return;
+          }
     </script>
 </body>
 
