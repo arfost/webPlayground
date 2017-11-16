@@ -54,9 +54,9 @@
         }
 
         function createCountdown(distance) {
-            // Set the date we're counting down to
+            var myWorker = new Worker('worker.js');
+            myWorker.postMessage(distance);
 
-            // Update the count down every 1 second
             var x = setInterval(function () {
 
                 // Get todays date and time
@@ -78,22 +78,10 @@
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("demo").innerHTML = "EXPIRED";
-                    showNotification("fini", "le countdown est fini", null, {});
+                    //window.navigator.vibrate([200, 100, 200]);
                 }
             }, 1000);
         }
-
-        function showNotification(title, body, icon, data) {
-            var notificationOptions = {
-              body: body,
-              icon: icon ? icon : 'images/touch/chrome-touch-icon-192x192.png',
-              tag: 'simple-push-demo-notification',
-              data: data
-            };
-          
-            self.registration.showNotification(title, notificationOptions);
-            return;
-          }
     </script>
 </body>
 
