@@ -4,6 +4,7 @@ function showNotification(time){
       body: 'The time is over'
     };
     setTimeout(function(){
+        console.log('Time is over from SW', e);
         self.registration.showNotification(title, options);
     }, time)
     

@@ -54,7 +54,7 @@
         }
 
         function createCountdown(distance) {
-            var myWorker = new Worker('worker.js');
+            var myWorker = new Worker('ww.js');
             myWorker.postMessage(distance);
 
             var x = setInterval(function () {
