@@ -12,11 +12,11 @@
     {
         "title": "wikipedia search",
         "desc": "Un bookmarklet qui lance une recherche wikipedia a partir du texte selectionné",
-        "link": "simple:function se() {var text = \"\";var activeEl = document.activeElement;var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;if ((activeElTagName == \"textarea\") || (activeElTagName == \"input\" &&/^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&(typeof activeEl.selectionStart == \"number\")) {text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);} else if (window.getSelection) {text = window.getSelection().toString();}return text;}s = se(); for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); if (!s || s=='') s = prompt('Enter%20search%20terms%20for%20Wikipedia',''); open('http://en.wikipedia.org' + (s ? '/w/index.php?title=Special:Search&search=' + encodeURIComponent(s) : '')).focus();"
+        "link": "complexe:wikiSearch.js"
     },
     {
         "title": "Mealpal no comment",
         "desc": "Un bookmarklet qui vise a supprimer le pop-up de commentaire de mealpal",
-        "link": "complex:mealpalClean.js"
+        "link": "simple:document.querySelector('#dialog-rate-meal').style.display = 'none';document.querySelector('#content-overlay').style.display = 'none';"
     }
 ]
