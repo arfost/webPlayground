@@ -12,7 +12,7 @@
     {
         "title": "wikipedia search",
         "desc": "Un bookmarklet qui lance une recherche wikipedia a partir du texte selectionné",
-        "link": "complexe:wikiSearch.js"
+        "link": "complex:wikiSearch.js"
     },
     {
         "title": "Mealpal no comment",
