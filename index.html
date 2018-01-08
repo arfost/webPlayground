@@ -13,16 +13,178 @@
                 Une serie de bookmarklet a usage perso. Pour tous, ajoutez le lien sous la descrition dans vos favori, et utilisez a volontée.
             </p>
     </div>
-    <ul id="list">
-        <li>
-            <h4>Test basique</h4>
+    <ul id="list"></ul>
+    <div>
+        <h5>How to pour les devs</h4>
             <p>
-                Un simple test de bookmarklet, affiche une alert reprenant le nom de la page actuelle
+                Le principe est simple. Un lien peut contenir du JS, qui s'executera sur la page. Un lien peut etre mis en favori. Un lien
+                qui contient du JS mis en favori va s'executer sur la page affichée au moment ou le favori est apellé. Le
+                resultat c'est qu'on peut executer du JS sur une page arbitraire via ce moyen.
             </p>
-            <a href="javascript:alert('hi from : '+document.title);">lien</a>
-        </li>
-    </ul>
-    <script>
+            <p>
+                Le moyen le plus simple pour ajouter le lien, est de le creer dans une page comme celle la, mettre le lien avec le JS voulu
+                dedans, et l'ajouter en favoris On peut aussi editer un favori pour directement mettre le JS comme contenu.<br/>
+                Attention : Certaines limitation s'appliquent, comme le JS devient une URL, il doit etre de moins de 2000
+                characteres, et n'utiliser que des characteres autorisés pour une URL
+            </p>
+            <p>
+                Une autre technique pour outrepasser les limitations precedentes peut etre de passer une fonction chargée de charger le script au lieu du script lui même.
+                Du coup on peut avoir la taille qu'on veut, et pas s'embeter avec les soucis de charactere. Par contre certains sites bloquent ce genre de DL.
+                <br/>
+                Example de code de chargement : <br/>
+                javascript:(function(){
+                    _my_script=document.createElement('SCRIPT');
+                    _my_script.type='text/javascript';
+                    _my_script.src='LINK TO MY SCRIPT';
+                    document.getElementsByTagName('head')[0].appendChild(_my_script);})();
+            </p>
+    </div>
+    <script type="text/javascript">
+        function crunch(input) {
+
+            // Get input script code, process it and display output.
+
+            var output = input;
+            output = replaceLiteralStrings(output);
+            output = removeComments(output);
+            output = compressWhiteSpace(output);
+            output = combineLiteralStrings(output);
+            output = restoreLiteralStrings(output);
+
+            return "javascript:" + output;
+        }
+
+        function replaceLiteralStrings(s) {
+
+            var i, c, t, lines, escaped, quoteChar, inQuote, literal;
+
+            literalStrings = new Array();
+            t = "";
+
+            // Split script into individual lines.
+
+            lines = s.split("\n");
+            for (i = 0; i < lines.length; i++) {
+
+                j = 0;
+                inQuote = false;
+                while (j <= lines[i].length) {
+                    c = lines[i].charAt(j);
+
+                    // If not already in a string, look for the start of one.
+
+                    if (!inQuote) {
+                        if (c == '"' || c == "'") {
+                            inQuote = true;
+                            escaped = false;
+                            quoteChar = c;
+                            literal = c;
+                        }
+                        else
+                            t += c;
+                    }
+
+                    // Already in a string, look for end and copy characters.
+
+                    else {
+                        if (c == quoteChar && !escaped) {
+                            inQuote = false;
+                            literal += quoteChar;
+                            t += "__" + literalStrings.length + "__";
+                            literalStrings[literalStrings.length] = literal;
+                        }
+                        else if (c == "\\" && !escaped)
+                            escaped = true;
+                        else
+                            escaped = false;
+                        literal += c;
+                    }
+                    j++;
+                }
+                t += "\n";
+            }
+
+            return t;
+        }
+
+        function removeComments(s) {
+
+            var lines, i, t;
+
+            // Remove '//' comments from each line.
+
+            lines = s.split("\n");
+            t = "";
+            for (i = 0; i < lines.length; i++)
+                t += lines[i].replace(/([^\x2f]*)\x2f\x2f.*$/, "$1");
+
+            // Replace newline characters with spaces.
+
+            t = t.replace(/(.*)\n(.*)/g, "$1 $2");
+
+            // Remove '/* ... */' comments.
+
+            lines = t.split("*/");
+            t = "";
+            for (i = 0; i < lines.length; i++)
+                t += lines[i].replace(/(.*)\x2f\x2a(.*)$/g, "$1 ");
+
+            return t;
+        }
+
+        function compressWhiteSpace(s) {
+
+            // Condense white space.
+
+            s = s.replace(/\s+/g, " ");
+            s = s.replace(/^\s(.*)/, "$1");
+            s = s.replace(/(.*)\s$/, "$1");
+
+            // Remove uneccessary white space around operators, braces and parentices.
+
+            s = s.replace(/\s([\x21\x25\x26\x28\x29\x2a\x2b\x2c\x2d\x2f\x3a\x3b\x3c\x3d\x3e\x3f\x5b\x5d\x5c\x7b\x7c\x7d\x7e])/g, "$1");
+            s = s.replace(/([\x21\x25\x26\x28\x29\x2a\x2b\x2c\x2d\x2f\x3a\x3b\x3c\x3d\x3e\x3f\x5b\x5d\x5c\x7b\x7c\x7d\x7e])\s/g, "$1");
+            return s;
+        }
+
+        function combineLiteralStrings(s) {
+
+            var i;
+
+            s = s.replace(/"\+"/g, "");
+            s = s.replace(/'\+'/g, "");
+
+            return s;
+        }
+
+        function restoreLiteralStrings(s) {
+
+            var i;
+
+            for (i = 0; i < literalStrings.length; i++)
+                s = s.replace(new RegExp("__" + i + "__"), literalStrings[i]);
+
+            return s;
+        }
+
+        function createLink(link) {
+            link = link.split(":");
+            if (link[0] === "complex") {
+                return `javascript:(function(){
+            _my_script=document.createElement('SCRIPT');
+            _my_script.type='text/javascript';
+            _my_script.src='https://arfost.github.io/webPlayground/bm/${link[1]}';
+            document.getElementsByTagName('head')[0].appendChild(_my_script);})();`
+            } else {
+                try {
+                    return crunch(link[1])
+                } catch (e) {
+                    console.error(e);
+                    return "javascript:alert('Error during bookmarklet creation')"
+                }
+            }
+        }
+
         var list = document.querySelector('#list');
 
         fetch('list.json').then(function (response) {
@@ -31,17 +193,13 @@
             console.log(myJson, list);
             for (var bm of myJson) {
                 let bmElement = document.createElement("li");
-                bmElement.innerHTML = 
-            `<h4>${bm.title}</h4>
+                bmElement.innerHTML =
+                    `<h4>${bm.title}</h4>
             <p>
                     ${bm.desc}
             </p>
-            <a href="javascript:(function(){
-            _my_script=document.createElement('SCRIPT');
-            _my_script.type='text/javascript';
-            _my_script.src='https://arfost.github.io/webPlayground/bm/${bm.link}';
-            document.getElementsByTagName('head')[0].appendChild(_my_script);})();">
-                lien
+            <a href="${createLink(bm.link)}">
+                bookMarklet
             </a>`
                 list.appendChild(bmElement)
             }
