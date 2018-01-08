@@ -14,5 +14,8 @@ function getSelectionText() {
     return text;
 }
 s = getSelectionText();
-if (!s || s=='') s = prompt('Enter%20search%20terms%20for%20Wikipedia',''); 
-open('http://en.wikipedia.org' + (s ? '/w/index.php?title=Special:Search&search=' + encodeURIComponent(s) : '')).focus();
+if (!s || s=='') s = prompt('Enter search terms for Wikipedia',''); 
+var url = 'http://en.wikipedia.org' + (s ? '/w/index.php?title=Special:Search&search=' + encodeURIComponent(s) : '');
+console.log(url)
+var newWin = open(url);
+if(newWin) newWin.focus()
