@@ -13,47 +13,41 @@
                 Une serie de bookmarklet a usage perso. Pour tous, ajoutez le lien sous la descrition dans vos favori, et utilisez a volontée.
             </p>
     </div>
-    <div>
-        <div>
+    <ul id="list">
+        <li>
             <h4>Test basique</h4>
             <p>
                 Un simple test de bookmarklet, affiche une alert reprenant le nom de la page actuelle
             </p>
             <a href="javascript:alert('hi from : '+document.title);">lien</a>
-        </div>
-        <div>
-            <h4>Test complexe</h4>
+        </li>
+    </ul>
+    <script>
+        var list = document.querySelector('#list');
+
+        fetch('list.json').then(function (response) {
+            return response.json();
+        }).then(function (myJson) {
+            console.log(myJson, list);
+            for (var bm of myJson) {
+                let bmElement = document.createElement("li");
+                bmElement.innerHTML = 
+            `<h4>${bm.title}</h4>
             <p>
-                Un test pour verifier le chargement direct de scripts
+                    ${bm.desc}
             </p>
             <a href="javascript:(function(){
-                _my_script=document.createElement('SCRIPT');
-                _my_script.type='text/javascript';
-                _my_script.src='https://arfost.github.io/webPlayground/testLoad.js';
-                document.getElementsByTagName('head')[0].appendChild(_my_script);
-                })();">lien</a>
-        </div>
-        <div>
-            <h4>Mealpal no comment</h4>
-            <p>
-                Un bookmarklet qui vise a supprimer le pop-up de commentaire de mealpal
-            </p>
-            <a href="javascript:(function(){
-                _my_script=document.createElement('SCRIPT');
-                _my_script.type='text/javascript';
-                _my_script.src='https://arfost.github.io/webPlayground/mealpalClean.js';
-                document.getElementsByTagName('head')[0].appendChild(_my_script);
-              })();">lien</a>
-        </div>
-    </div>
+            _my_script=document.createElement('SCRIPT');
+            _my_script.type='text/javascript';
+            _my_script.src='https://arfost.github.io/webPlayground/bm/${bm.link}.js';
+            document.getElementsByTagName('head')[0].appendChild(_my_script);})();">
+                lien
+            </a>`
+                list.appendChild(bmElement)
+            }
 
-
-
-    
-
-    
-
-
+        });
+    </script>
 </body>
 
 </html>

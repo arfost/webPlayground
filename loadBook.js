@@ -1,1 +1,0 @@
-javascript:alert('hi from : '+document.title);
