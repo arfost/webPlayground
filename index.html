@@ -177,7 +177,8 @@
             document.getElementsByTagName('head')[0].appendChild(_my_script);})();`
             } else {
                 try {
-                    return crunch(link[1])
+                    link.shift()
+                    return crunch(link.join(''))
                 } catch (e) {
                     console.error(e);
                     return "javascript:alert('Error during bookmarklet creation')"
