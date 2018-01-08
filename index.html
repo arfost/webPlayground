@@ -5,84 +5,13 @@
     <meta charset="UTF-8" />
     <title>Test timeout notif</title>
 </head>
-
 <body>
-
-    <div id="demo">Test of timers</div>
-    <button id="start" onclick="prepareNotif(30000)">start</button>
-
-    <script language="javascript">
-        /*
-        var worker = new Worker('test.js');
-    
-        worker.onmessage = function(event) {
-          document.getElementById('result').textContent = event.data;
-          dump('Got: ' + event.data + '\n');
-        };
-    
-        worker.onerror = function(error) {
-          dump('Worker error: ' + error.message + '\n');
-          throw error;
-        };
-    
-        worker.postMessage('5');
-        */
-
-        function prepareNotif(distance) {
-            if (!("Notification" in window)) {
-                alert("This browser does not support system notifications");
-            }
-
-            // Let's check whether notification permissions have already been granted
-            else if (Notification.permission === "granted") {
-                createCountdown(distance);
-            }
-
-            // Otherwise, we need to ask the user for permission
-            else if (Notification.permission !== 'denied') {
-                Notification.requestPermission(function (permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        createCountdown(distance);
-                    } else {
-                        alert("No notifs allowed, aborting");
-                    }
-                });
-            } else {
-                alert("No notifs allowed, aborting");
-            }
-        }
-
-        function createCountdown(distance) {
-            var myWorker = new Worker('ww.js');
-            myWorker.postMessage(distance);
-
-            var x = setInterval(function () {
-
-                // Get todays date and time
-                var now = new Date().getTime();
-
-                // Find the distance between now an the count down date
-                //var distance = countDownDate - now;
-
-                // Time calculations for hours, minutes and seconds
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                // Output the result in an element with id="demo"
-                document.getElementById("demo").innerHTML = hours + "h "
-                    + minutes + "m " + seconds + "s ";
-                distance = distance - 1000;
-                // If the count down is over, write some text 
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("demo").innerHTML = "EXPIRED";
-                    //window.navigator.vibrate([200, 100, 200]);
-                }
-            }, 1000);
-        }
-    </script>
+    <a href="javascript:(function(){
+        _my_script=document.createElement('SCRIPT');
+        _my_script.type='text/javascript';
+        _my_script.src='https://mysite.com/script.js?';
+        document.getElementsByTagName('head')[0].appendChild(_my_script);
+      })();">test</a>
 </body>
 
 </html>
