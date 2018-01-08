@@ -191,7 +191,6 @@
         fetch('list.json').then(function (response) {
             return response.json();
         }).then(function (myJson) {
-            console.log(myJson, list);
             for (var bm of myJson) {
                 let bmElement = document.createElement("li");
                 bmElement.innerHTML =
