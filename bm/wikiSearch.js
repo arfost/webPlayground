@@ -17,4 +17,3 @@ s = getSelectionText();
 if (!s || s=='') s = prompt('Enter search terms for Wikipedia',''); 
 var url = 'http://en.wikipedia.org' + (s ? '/w/index.php?title=Special:Search&search=' + encodeURIComponent(s) : '');
 var newWin = open(url, '_blank');
-if(newWin) newWin.focus()
