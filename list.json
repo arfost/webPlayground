@@ -20,6 +20,11 @@
         "link": "complex:hideImg.js"
     },
     {
+        "title": "reading bar",
+        "desc": "Un bookmarklet qui ajoute une barre fixe rouge sur la page en cours, pour aider a garder le fil du texte qu'on lit",
+        "link": "complex:readingBar.js"
+    },
+    {
         "title": "Mealpal no comment",
         "desc": "Un bookmarklet qui vise a supprimer le pop-up de commentaire de mealpal",
         "link": "simple:document.querySelector('#dialog-rate-meal').style.display = 'none';document.querySelector('#content-overlay').style.display = 'none';"
