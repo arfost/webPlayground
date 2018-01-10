@@ -27,6 +27,6 @@
     {
         "title": "Mealpal no comment",
         "desc": "Un bookmarklet qui vise a supprimer le pop-up de commentaire de mealpal",
-        "link": "simple:document.querySelector('#dialog-rate-meal').style.display = 'none';document.querySelector('#content-overlay').style.display = 'none';"
+        "link": "complex:mealPal.js"
     }
 ]
