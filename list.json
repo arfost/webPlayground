@@ -3,6 +3,10 @@
         "title": "Test basique",
         "desc": "Un simple test de bookmarklet, affiche une alert reprenant le nom de la page actuelle",
         "link": "simple:alert('hi from : '+document.title);"
+    },{
+        "title": "Test hide img",
+        "desc": "Un simple test de bookmarklet direct qui cache toutes les images d'une page",
+        "link": "simple:for(let element of document.querySelectorAll('img')){element.style.display = 'none'}"
     },
     {
         "title": "Test complexe",
